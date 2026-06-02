@@ -89,8 +89,20 @@ const FlagshipServices = ({ onOpenBooking }) => {
 
   const deptData = dashboardData[dashboardDept];
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (window.innerWidth < 1024) {
+      setTimeout(() => {
+        const element = document.getElementById('flagship-display-container');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  };
+
   return (
-    <section id="industries" className="py-20 md:py-28 bg-[#071E4A] text-white relative overflow-hidden">
+    <section id="services-flagship" className="py-20 md:py-28 bg-[#071E4A] text-white relative overflow-hidden">
       {/* Decorative Gradients (Antigravity Theme) */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(200,155,74,0.12)_0%,transparent_60%)] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-brand-gold/5 blur-[120px] pointer-events-none" />
@@ -119,7 +131,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
             
             {/* Tab 1: Power BI Dashboards */}
             <button
-              onClick={() => setActiveTab('powerbi')}
+              onClick={() => handleTabChange('powerbi')}
               className={`p-6 rounded-2xl text-left border transition-all duration-500 relative overflow-hidden group select-none ${
                 activeTab === 'powerbi'
                   ? 'bg-white/5 border-brand-gold shadow-[0_15px_30px_-5px_rgba(200,155,74,0.15)]'
@@ -144,7 +156,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
 
             {/* Tab 2: Virtual HR Manager */}
             <button
-              onClick={() => setActiveTab('virtualhr')}
+              onClick={() => handleTabChange('virtualhr')}
               className={`p-6 rounded-2xl text-left border transition-all duration-500 relative overflow-hidden group select-none ${
                 activeTab === 'virtualhr'
                   ? 'bg-white/5 border-brand-gold shadow-[0_15px_30px_-5px_rgba(200,155,74,0.15)]'
@@ -169,7 +181,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
 
             {/* Tab 3: HRIS Implementation */}
             <button
-              onClick={() => setActiveTab('hris')}
+              onClick={() => handleTabChange('hris')}
               className={`p-6 rounded-2xl text-left border transition-all duration-500 relative overflow-hidden group select-none ${
                 activeTab === 'hris'
                   ? 'bg-white/5 border-brand-gold shadow-[0_15px_30px_-5px_rgba(200,155,74,0.15)]'
@@ -195,7 +207,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
           </div>
 
           {/* Right Column: Visual Displays (Dynamic tab switching) */}
-          <div className="lg:col-span-8 w-full">
+          <div id="flagship-display-container" className="lg:col-span-8 w-full scroll-mt-24">
             <AnimatePresence mode="wait">
               
               {/* DISPLAY 1: INTERACTIVE POWER BI DASHBOARD MOCKUP */}
@@ -218,15 +230,15 @@ const FlagshipServices = ({ onOpenBooking }) => {
                       <h4 className="text-xl font-bold font-outfit text-white">Executive HR Analytics Dashboard</h4>
                     </div>
                     
-                    {/* Department Toggles */}
-                    <div className="flex flex-wrap gap-1.5 bg-white/5 p-1 rounded-xl border border-white/5">
+                    {/* Department Toggles (Responsive swipe-scroller) */}
+                    <div className="flex overflow-x-auto gap-1.5 bg-white/5 p-1 rounded-xl border border-white/5 whitespace-nowrap scrollbar-none max-w-full">
                       {['All', 'Engineering', 'Operations', 'Sales'].map((dept) => (
                         <button
                           key={dept}
                           onClick={() => setDashboardDept(dept)}
-                          className={`px-3 py-1 rounded-lg text-xs font-semibold font-outfit transition-all duration-300 ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-outfit transition-all duration-300 flex-shrink-0 ${
                             dashboardDept === dept
-                              ? 'bg-brand-gold text-brand-navy shadow-sm'
+                              ? 'bg-brand-gold text-brand-navy shadow-sm font-bold'
                               : 'text-white/70 hover:text-white hover:bg-white/5'
                           }`}
                         >
@@ -299,7 +311,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
                         <p className="text-[10px] text-white/40 mb-4">Calculated based on optimized structures</p>
                       </div>
 
-                      {/* Bar graph representation */}
+                      {/* Bar graph representation (Fluid responsive width) */}
                       <div className="h-32 flex items-end justify-around gap-2 px-2">
                         {deptData.growth.map((bar) => (
                           <div key={bar.label} className="flex flex-col items-center w-full h-full justify-end">
@@ -307,7 +319,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
                               initial={{ height: 0 }}
                               animate={{ height: `${bar.value * 0.8}%` }}
                               transition={{ duration: 0.5 }}
-                              className="w-8 bg-gradient-to-t from-brand-gold/40 to-brand-gold rounded-t-md relative group"
+                              className="w-6 sm:w-8 bg-gradient-to-t from-brand-gold/40 to-brand-gold rounded-t-md relative group"
                             >
                               {/* Hover Tooltip */}
                               <div className="absolute -top-7 left-1/2 transform -translate-x-1/2 bg-brand-navy text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-white/10">
@@ -329,7 +341,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
                     <Button
                       variant="primary"
                       onClick={onOpenBooking}
-                      className="px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 group whitespace-nowrap shadow-md self-stretch sm:self-auto"
+                      className="px-8 sm:px-4 py-3 sm:py-2 rounded-lg text-sm sm:text-xs font-bold flex items-center justify-center gap-2 group whitespace-nowrap shadow-md self-stretch sm:self-auto"
                     >
                       <span>Deploy Custom Dashboards</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -380,10 +392,10 @@ const FlagshipServices = ({ onOpenBooking }) => {
                     </div>
 
                     {/* Visual Card showing the Virtual team ecosystem */}
-                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-[300px]">
+                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-[320px] md:h-[300px]">
                       
                       <div className="flex justify-between items-start mb-6">
-                        <Users2 className="w-8 h-8 text-brand-gold" />
+                        <Users2 className="w-8 h-8 text-brand-gold animate-float-subtle" />
                         <div className="text-right">
                           <span className="text-[10px] uppercase text-white/50 block font-semibold">Availability</span>
                           <span className="text-xs font-bold text-white block">24/7 Priority Emergency Desk</span>
@@ -413,7 +425,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
                         <Button 
                           variant="primary" 
                           onClick={onOpenBooking}
-                          className="w-full text-sm font-bold"
+                          className="w-full text-sm font-bold py-2.5 shadow-md"
                         >
                           Appoint Your Virtual HR Manager
                         </Button>
@@ -465,10 +477,10 @@ const FlagshipServices = ({ onOpenBooking }) => {
                     </div>
 
                     {/* Step-by-Step implementation flowchart */}
-                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-[300px]">
+                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-[320px] md:h-[300px]">
                       
                       <div className="flex justify-between items-start mb-4">
-                        <Brain className="w-8 h-8 text-brand-gold" />
+                        <Brain className="w-8 h-8 text-brand-gold animate-float" />
                         <div className="text-right">
                           <span className="text-[10px] uppercase text-white/50 block font-semibold">Delivery Time</span>
                           <span className="text-xs font-bold text-white block">4 to 6 Weeks Integration</span>
@@ -478,17 +490,17 @@ const FlagshipServices = ({ onOpenBooking }) => {
                       {/* Flowchart steps */}
                       <div className="relative border-l border-white/10 pl-6 ml-2 space-y-4">
                         <div className="relative">
-                          <span className="absolute -left-[30px] top-0 w-4 h-4 rounded-full bg-brand-gold flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">1</span>
+                          <span className="absolute -left-[30px] top-0.5 w-4 h-4 rounded-full bg-brand-gold flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">1</span>
                           <h6 className="text-xs font-bold text-white">System Architecture Design</h6>
                           <p className="text-[10px] text-white/40">Custom mapping of leave rules and shifts</p>
                         </div>
                         <div className="relative">
-                          <span className="absolute -left-[30px] top-0 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">2</span>
+                          <span className="absolute -left-[30px] top-0.5 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">2</span>
                           <h6 className="text-xs font-bold text-white">Migration & Cleanse</h6>
                           <p className="text-[10px] text-white/40">Automated loading of history & files</p>
                         </div>
                         <div className="relative">
-                          <span className="absolute -left-[30px] top-0 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">3</span>
+                          <span className="absolute -left-[30px] top-0.5 w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px] text-brand-navy font-bold font-outfit">3</span>
                           <h6 className="text-xs font-bold text-white">Go-Live & Support desk</h6>
                           <p className="text-[10px] text-white/40">Employee training and desk support</p>
                         </div>
@@ -498,7 +510,7 @@ const FlagshipServices = ({ onOpenBooking }) => {
                         <Button 
                           variant="primary" 
                           onClick={onOpenBooking}
-                          className="w-full text-sm font-bold"
+                          className="w-full text-sm font-bold py-2.5 shadow-md"
                         >
                           Request Custom Demo Blueprint
                         </Button>

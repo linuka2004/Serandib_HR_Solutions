@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, PhoneCall } from 'lucide-react';
 import Button from '../ui/Button';
 
@@ -7,6 +7,8 @@ const Navbar = ({ onOpenBooking }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,16 +52,25 @@ const Navbar = ({ onOpenBooking }) => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="relative font-outfit text-sm font-medium text-brand-navy/80 hover:text-brand-navy transition-colors duration-300 py-1 group"
-              >
-                {link.name}
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = currentPath === link.path;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`relative font-outfit text-sm font-semibold transition-colors duration-300 py-1 group ${
+                    isActive 
+                      ? 'text-brand-gold font-bold' 
+                      : 'text-brand-navy/80 hover:text-brand-navy'
+                  }`}
+                >
+                  {link.name}
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-gold transition-transform duration-300 origin-left ${
+                    isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  }`} />
+                </Link>
+              );
+            })}
           </div>
 
           {/* Desktop CTA Buttons */}
@@ -82,11 +93,20 @@ const Navbar = ({ onOpenBooking }) => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-4">
+          {/* Mobile Menu Button & Call Button */}
+          <div className="lg:hidden flex items-center gap-3">
+            <a 
+              href="tel:+94112345678" 
+              className="p-2 rounded-xl text-brand-navy hover:text-brand-gold transition-colors focus:outline-none flex items-center justify-center bg-brand-navy/5 hover:bg-brand-navy/10 border border-brand-navy/10"
+              aria-label="Call Us Directly"
+              title="Call Us Directly"
+            >
+              <PhoneCall className="w-4.5 h-4.5" />
+            </a>
+
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-brand-navy hover:bg-brand-navy/5 transition-colors focus:outline-none"
+              className="p-2 rounded-xl text-brand-navy hover:bg-brand-navy/5 transition-colors focus:outline-none border border-transparent"
               aria-label="Toggle navigation"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -119,23 +139,31 @@ const Navbar = ({ onOpenBooking }) => {
             </div>
 
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className="font-outfit text-lg font-semibold text-brand-navy/80 hover:text-brand-gold transition-colors py-2 border-b border-brand-navy/5"
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = currentPath === link.path;
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`font-outfit text-lg font-bold transition-colors py-2.5 border-b border-brand-navy/5 flex items-center justify-between ${
+                      isActive 
+                        ? 'text-brand-gold border-brand-gold/20' 
+                        : 'text-brand-navy/80 hover:text-brand-gold'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
           <div className="flex flex-col gap-4">
             <a 
               href="tel:+94112345678" 
-              className="flex items-center gap-3 font-medium text-brand-navy/70 hover:text-brand-gold transition-colors duration-300 py-2"
+              className="flex items-center gap-3 font-semibold text-brand-navy/80 hover:text-brand-gold transition-colors duration-300 py-3 bg-brand-navy/5 rounded-xl px-4 border border-brand-navy/5"
             >
               <PhoneCall className="w-5 h-5 text-brand-gold" />
               <span className="font-outfit text-base">+94 11 234 5678</span>
@@ -147,7 +175,7 @@ const Navbar = ({ onOpenBooking }) => {
                 setIsOpen(false);
                 onOpenBooking();
               }}
-              className="w-full text-center"
+              className="w-full text-center py-3.5 shadow-md"
             >
               Book Free Assessment
             </Button>
@@ -159,7 +187,7 @@ const Navbar = ({ onOpenBooking }) => {
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-brand-navy/20 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-brand-navy/25 backdrop-blur-sm z-30 lg:hidden"
         />
       )}
     </nav>

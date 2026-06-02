@@ -54,29 +54,6 @@ const Home = () => {
 
       {/* Main Sections */}
       <main className="flex-grow">
-        {/* Header Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-to-br from-brand-navy/95 to-[#030D22] text-white relative overflow-hidden">
-          <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(200,155,74,0.1)_0%,transparent_60%)] pointer-events-none" />
-          
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <span className="text-brand-gold uppercase tracking-wider text-xs font-bold font-outfit mb-4 block">
-                Welcome to Serandip HR Solutions
-              </span>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-outfit text-white leading-tight mb-6">
-                Your Strategic Human Capital Partner
-              </h1>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
-                We engineer scalable HR infrastructures that align talent strategy with corporate growth, enabling Sri Lanka's leading enterprises to build world-class workforces.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
         <Hero onOpenBooking={handleOpenBooking} />
 
         {/* Services Preview Section */}

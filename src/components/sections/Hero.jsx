@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Award, BarChart3, ShieldAlert, Sparkles } from 'lucide-react';
 import Button from '../ui/Button';
 
@@ -35,6 +36,10 @@ const slides = [
 
 const Hero = ({ onOpenBooking }) => {
   const [current, setCurrent] = useState(0);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -51,8 +56,36 @@ const Hero = ({ onOpenBooking }) => {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
   return (
-    <section id="home" className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-brand-navy pt-20">
+    <section 
+      id="home" 
+      className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-brand-navy pt-20 select-none touch-pan-y"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       
       {/* Background Grid Pattern & Mesh Gradients */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(200,155,74,0.1)_0%,transparent_70%)] opacity-70 pointer-events-none" />
@@ -111,14 +144,14 @@ const Hero = ({ onOpenBooking }) => {
                 </Button>
                 
                 {/* Outline CTA */}
-                <a href="#services" className="w-full sm:w-auto">
+                <Link to="/services" className="w-full sm:w-auto">
                   <Button 
                     variant="outlineGold" 
                     className="w-full sm:w-auto px-6 py-4 text-base bg-white/5 backdrop-blur-sm"
                   >
                     Explore Our Services
                   </Button>
-                </a>
+                </Link>
               </div>
 
             </div>

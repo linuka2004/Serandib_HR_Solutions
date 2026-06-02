@@ -297,7 +297,7 @@ const BookingWizard = ({ isOpen, onClose }) => {
                                 : 'bg-white border-brand-navy/10 hover:border-brand-navy/20 text-brand-navy/70'
                             }`}
                           >
-                            <span className="text-sm font-semibold">{range.label}</span>
+                            <span className="text-sm font-semibold pr-2">{range.label}</span>
                             <input 
                               type="radio" 
                               name="headcount"
@@ -306,7 +306,7 @@ const BookingWizard = ({ isOpen, onClose }) => {
                               onChange={handleTextChange}
                               className="sr-only"
                             />
-                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                            <div className={`w-4 h-4 rounded-full border flex flex-shrink-0 items-center justify-center ${
                               formData.headcount === range.value ? 'border-brand-navy bg-brand-navy text-white' : 'border-brand-navy/20'
                             }`}>
                               {formData.headcount === range.value && <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />}
@@ -348,8 +348,8 @@ const BookingWizard = ({ isOpen, onClose }) => {
                                   : 'bg-white border-brand-navy/10 hover:border-brand-navy/20 text-brand-navy/70'
                               }`}
                             >
-                              <span className="text-sm font-semibold">{opt.label}</span>
-                              <div className={`w-5 h-5 rounded-lg border flex items-center justify-center ${
+                              <span className="text-sm font-semibold pr-2">{opt.label}</span>
+                              <div className={`w-5 h-5 rounded-lg border flex flex-shrink-0 items-center justify-center ${
                                 selected ? 'border-brand-gold bg-brand-gold text-brand-navy' : 'border-brand-navy/20'
                               }`}>
                                 {selected && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
@@ -435,7 +435,7 @@ const BookingWizard = ({ isOpen, onClose }) => {
 
         {/* Modal Footer Controls */}
         {!isCompleted && (
-          <div className="bg-white border-t border-brand-navy/5 px-6 py-4 flex justify-between items-center">
+          <div className="bg-white border-t border-brand-navy/5 px-6 py-4 flex justify-between items-center gap-4">
             <Button
               variant="secondary"
               onClick={prevStep}
@@ -464,12 +464,13 @@ const BookingWizard = ({ isOpen, onClose }) => {
                 variant="primary"
                 onClick={handleSubmit}
                 disabled={!formData.bookingDate}
-                className={`px-6 py-2.5 text-xs md:text-sm font-semibold flex items-center gap-1.5 ${
+                className={`px-5 sm:px-6 py-2.5 text-xs md:text-sm font-semibold flex items-center gap-1.5 ${
                   !formData.bookingDate ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                <span>Secure Slot & Generate Audit</span>
-                <ShieldCheck className="w-4 h-4" />
+                <span className="hidden sm:inline">Secure Slot & Generate Audit</span>
+                <span className="inline sm:hidden">Confirm Assessment</span>
+                <ShieldCheck className="w-4 h-4 flex-shrink-0" />
               </Button>
             )}
           </div>
