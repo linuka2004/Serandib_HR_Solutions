@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-light: #F8F8F8;
+  --color-brand-navy: #071E4A;
+  --color-brand-gold: #C89B4A;
+  --color-brand-dark: #030D22;
+  
+  --shadow-float: 0 20px 40px -15px rgba(7, 30, 74, 0.12), 0 15px 20px -20px rgba(7, 30, 74, 0.15);
+  --shadow-float-hover: 0 30px 60px -10px rgba(200, 155, 74, 0.15), 0 20px 30px -15px rgba(7, 30, 74, 0.2);
+  
+  --font-outfit: "Outfit", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-light text-brand-navy font-inter overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-outfit font-semibold tracking-tight;
+  }
+}
+
+/* Antigravity floating physics & keyframes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float-subtle {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-panel-navy {
+  background: rgba(7, 30, 74, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-brand-light;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-navy/20 rounded-full transition-colors hover:bg-brand-navy/40;
+}
